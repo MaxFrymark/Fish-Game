@@ -6,6 +6,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] Rigidbody2D rb;
+    [SerializeField] UIHandler uIHandler;
 
     enum PlayerSize { small, medium, large }
     PlayerSize currentSize = PlayerSize.medium;
@@ -131,6 +132,8 @@ public class Player : MonoBehaviour
                 currentPowerUp = PowerUpType.none;
             }
         }
+
+        UpdateUIPowerUpDisplay();
     }
 
     public void GetPowerUp(PowerUp powerUp)
@@ -149,5 +152,11 @@ public class Player : MonoBehaviour
             powerUp.SwitchPowerUpType();
         }
         currentPowerUp = incomingPowerUp;
+        UpdateUIPowerUpDisplay();
+    }
+
+    private void UpdateUIPowerUpDisplay()
+    {
+        uIHandler.UpdatePowerUpDisplay((int)currentPowerUp);
     }
 }

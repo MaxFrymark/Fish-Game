@@ -26,7 +26,7 @@ public class InputHandler : MonoBehaviour
 
     private void PlayerAction(InputAction.CallbackContext context)
     {
-
+        player.ChangeScale();
     }
 
     private void OnDisable()

@@ -159,4 +159,9 @@ public class Player : MonoBehaviour
     {
         uIHandler.UpdatePowerUpDisplay((int)currentPowerUp);
     }
+
+    public int GetPlayerSize()
+    {
+        return (int)currentSize;
+    }
 }

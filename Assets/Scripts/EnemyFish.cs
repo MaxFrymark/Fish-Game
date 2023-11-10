@@ -75,7 +75,11 @@ public class EnemyFish : MonoBehaviour
 
     private void Retreat()
     {
-
+        MoveAway();
+        if(Vector2.Distance(fishRigidBody.transform.position, player.transform.position) > 15f)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     private void UpdateWaypoint()
@@ -99,6 +103,13 @@ public class EnemyFish : MonoBehaviour
         Vector2 direction = currentDestination.position - fishRigidBody.transform.position;
         direction.Normalize();
         fishRigidBody.velocity = direction * currentSpeed;
+    }
+
+    private void MoveAway()
+    {
+        Vector2 direction = currentDestination.position - fishRigidBody.transform.position;
+        direction.Normalize();
+        fishRigidBody.velocity = -direction * currentSpeed;
     }
 
     private void SetFacing()
@@ -139,8 +150,6 @@ public class EnemyFish : MonoBehaviour
         Debug.DrawLine(fishRigidBody.transform.position, raycastHit2D.transform.position, Color.green);
         if(raycastHit2D.transform.gameObject.layer == 6)
         {
-            Debug.Log("meow");
-
             if (player.GetPlayerSize() > size)
             {
                 if(currentBehavior != Behavior.retreat)
@@ -154,6 +163,14 @@ public class EnemyFish : MonoBehaviour
                 if(currentBehavior != Behavior.chase)
                 {
                     SwitchToChase();
+                }
+            }
+
+            if(player.GetPlayerSize() == size)
+            {
+                if(currentBehavior == Behavior.chase)
+                {
+                    SwitchToPatrol();
                 }
             }
         }
@@ -172,7 +189,7 @@ public class EnemyFish : MonoBehaviour
     {
         currentBehavior = Behavior.patrol;
         currentSpeed = patrolSpeed;
-        currentDestination = waypoints[0];
+        UpdateWaypoint();
     }
 
     private void SwitchToChase()
@@ -184,7 +201,17 @@ public class EnemyFish : MonoBehaviour
 
     private void SwitchToRetreat()
     {
+        currentDestination = player.transform;
         currentBehavior = Behavior.retreat;
         currentSpeed = retreatSpeed;
+    }
+
+    public void AttackPlayer()
+    {
+        if (currentBehavior == Behavior.chase)
+        {
+            player.Die();
+            SwitchToPatrol();
+        }
     }
 }

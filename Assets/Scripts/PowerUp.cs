@@ -7,6 +7,7 @@ public class PowerUp : MonoBehaviour
     
     
     [SerializeField] Player.PowerUpType powerUpType;
+    public Player.PowerUpType PowerUpType { get { return powerUpType; } }
 
     [SerializeField] SpriteRenderer spriteRenderer;
     [SerializeField] Sprite scaleUpSprite;

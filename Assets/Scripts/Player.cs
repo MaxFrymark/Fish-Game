@@ -7,12 +7,17 @@ public class Player : MonoBehaviour
 {
     [SerializeField] Rigidbody2D rb;
     [SerializeField] UIHandler uIHandler;
-
+    [SerializeField] CircleCollider2D circleCollider;
+    [SerializeField] SpriteRenderer spriteRenderer;
+    [SerializeField] PowerUpManager powerUpManager;
+    
     enum PlayerSize { small, medium, large }
     PlayerSize currentSize = PlayerSize.medium;
+    PlayerSize savedSize = PlayerSize.medium;
 
     public enum PowerUpType { none, scaleUp, scaleDown }
     PowerUpType currentPowerUp = PowerUpType.none;
+    PowerUpType savedPowerup = PowerUpType.none;
 
     float smallScale = 0.5f;
     float mediumScale = 1f;
@@ -21,9 +26,19 @@ public class Player : MonoBehaviour
     
     float currentSpeed = 5f;
     Vector2 currentDirection = Vector2.zero;
+    float returnToCheckPointSpeed = 8f;
+
+    Checkpoint currentCheckPoint;
+    bool returningToCheckPoint;
 
     void Update()
     {
+        if (returningToCheckPoint)
+        {
+            ReturnToCheckPoint();
+            return;
+        }
+        
         MovePlayer();
         SetPlayerFacing();
         CheckScale();
@@ -155,6 +170,12 @@ public class Player : MonoBehaviour
         UpdateUIPowerUpDisplay();
     }
 
+    private void LoadPowerUpFromSave()
+    {
+        currentPowerUp = savedPowerup;
+        UpdateUIPowerUpDisplay();
+    }
+
     private void UpdateUIPowerUpDisplay()
     {
         uIHandler.UpdatePowerUpDisplay((int)currentPowerUp);
@@ -163,5 +184,46 @@ public class Player : MonoBehaviour
     public int GetPlayerSize()
     {
         return (int)currentSize;
+    }
+
+    public void UpdateCheckPoint(Checkpoint checkpoint)
+    {
+        if(currentCheckPoint == null || checkpoint.CheckPointNumber > currentCheckPoint.CheckPointNumber )
+        {
+            currentCheckPoint = checkpoint;
+            powerUpManager.SaveData();
+            savedPowerup = currentPowerUp;
+            savedSize = currentSize;
+        }
+    }
+
+    public void Die()
+    {
+        spriteRenderer.enabled = false;
+        circleCollider.enabled = false;
+        returningToCheckPoint = true;
+    }
+
+    public void Restore()
+    {
+        spriteRenderer.enabled = true;
+        circleCollider.enabled = true;
+        returningToCheckPoint = false;
+        powerUpManager.LoadData();
+        LoadPowerUpFromSave();
+        currentSize = savedSize;
+    }
+
+    public void ReturnToCheckPoint()
+    {
+        Vector2 directionToCheckpoint = currentCheckPoint.transform.position - transform.position;
+        if(directionToCheckpoint.magnitude < 0.1f)
+        {
+            Restore();
+            return;
+        }
+        directionToCheckpoint.Normalize();
+        rb.velocity = directionToCheckpoint * returnToCheckPointSpeed;
+
     }
 }

@@ -33,7 +33,7 @@ Transform:
   - {fileID: 1343589894217689925}
   - {fileID: 1343589894543247401}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1343589892778167199
 MonoBehaviour:
@@ -188,7 +188,6 @@ GameObject:
   - component: {fileID: 1343589894717997888}
   - component: {fileID: 1343589894717997889}
   - component: {fileID: 98545676}
-  - component: {fileID: 1041632894}
   m_Layer: 9
   m_Name: Fish Body
   m_TagString: Untagged
@@ -209,6 +208,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1343589893011257752}
+  - {fileID: 1457997002911633153}
   m_Father: {fileID: 1343589892778167196}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -301,16 +301,65 @@ CapsuleCollider2D:
   m_Offset: {x: 0.0000000030553124, y: 0.025629822}
   m_Size: {x: 1.0000002, y: 0.49473822}
   m_Direction: 1
---- !u!114 &1041632894
+--- !u!1 &4017482910396870371
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1457997002911633153}
+  - component: {fileID: 1326890087825503321}
+  - component: {fileID: 9144055429772588269}
+  m_Layer: 10
+  m_Name: Fish Attack Player Area
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1457997002911633153
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4017482910396870371}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1343589894717997894}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1326890087825503321
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1343589894717997895}
+  m_GameObject: {fileID: 4017482910396870371}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d616fab7e71481b4789c561d47ccc7ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   fish: {fileID: 1343589892778167199}
+--- !u!70 &9144055429772588269
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4017482910396870371}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 1, y: 0.5}
+  m_Direction: 1

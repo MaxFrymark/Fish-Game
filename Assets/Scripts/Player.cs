@@ -26,10 +26,17 @@ public class Player : MonoBehaviour
     
     float currentSpeed = 5f;
     Vector2 currentDirection = Vector2.zero;
-    float returnToCheckPointSpeed = 8f;
+    float returnToCheckPointSpeed = 10f;
 
     Checkpoint currentCheckPoint;
     bool returningToCheckPoint;
+
+    LayerMask wallsLayer;
+
+    private void Start()
+    {
+        wallsLayer = LayerMask.GetMask(LayerMask.LayerToName(7));
+    }
 
     void Update()
     {
@@ -123,15 +130,18 @@ public class Player : MonoBehaviour
     {
         if(currentPowerUp == PowerUpType.scaleUp)
         {
-            if(currentSize == PlayerSize.small)
+            if (CheckIfEnoughSpaceToGrow())
             {
-                currentSize = PlayerSize.medium;
-                currentPowerUp = PowerUpType.none;
-            }
-            else if(currentSize == PlayerSize.medium)
-            {
-                currentSize = PlayerSize.large; 
-                currentPowerUp = PowerUpType.none;
+                if (currentSize == PlayerSize.small)
+                {
+                    currentSize = PlayerSize.medium;
+                    currentPowerUp = PowerUpType.none;
+                }
+                else if (currentSize == PlayerSize.medium)
+                {
+                    currentSize = PlayerSize.large;
+                    currentPowerUp = PowerUpType.none;
+                }
             }
         }
         else if(currentPowerUp == PowerUpType.scaleDown)
@@ -149,6 +159,41 @@ public class Player : MonoBehaviour
         }
 
         UpdateUIPowerUpDisplay();
+    }
+
+    private bool CheckIfEnoughSpaceToGrow()
+    {
+        if(currentSize == PlayerSize.large)
+        {
+            return false;
+        }
+
+        float spaceNeeded = 0f;
+        if(currentSize == PlayerSize.small)
+        {
+            spaceNeeded = 0.4f;
+        }
+        else if(currentSize == PlayerSize.medium)
+        {
+            spaceNeeded = 0.7f;
+        }
+
+        RaycastHit2D upHit = Physics2D.Raycast(transform.position, Vector2.up, spaceNeeded, wallsLayer);
+        RaycastHit2D downHit = Physics2D.Raycast(transform.position, Vector2.down, spaceNeeded, wallsLayer);
+        if(upHit && downHit)
+        {
+            return false;
+        }
+
+        RaycastHit2D rightHit = Physics2D.Raycast(transform.position, Vector2.right, spaceNeeded, wallsLayer);
+        RaycastHit2D leftHit = Physics2D.Raycast(transform.position, Vector2.left, spaceNeeded, wallsLayer);
+        if (rightHit && leftHit)
+        {
+            return false;
+        }
+
+
+        return true;
     }
 
     public void GetPowerUp(PowerUp powerUp)

@@ -29,11 +29,8 @@ public class EnemyFish : MonoBehaviour
 
     private void Start()
     {
-        currentDestination = waypoints[0];
-        currentSpeed = patrolSpeed;
         playerLayer = LayerMask.GetMask(LayerMask.LayerToName(6));
         wallsLayer = LayerMask.GetMask(LayerMask.LayerToName(7));
-        MoveTowards();
     }
 
     private void Update()
@@ -213,5 +210,15 @@ public class EnemyFish : MonoBehaviour
             player.Die();
             SwitchToPatrol();
         }
+    }
+
+    private void OnDisable()
+    {
+        fishRigidBody.transform.position = transform.position;
+    }
+
+    private void OnEnable()
+    {
+        SwitchToPatrol();
     }
 }

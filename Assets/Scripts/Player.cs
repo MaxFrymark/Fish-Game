@@ -33,6 +33,9 @@ public class Player : MonoBehaviour
 
     LayerMask wallsLayer;
 
+    bool cantGrowToLarge = false;
+    bool cantGrowToMedium = false;
+
     private void Start()
     {
         wallsLayer = LayerMask.GetMask(LayerMask.LayerToName(7));
@@ -165,35 +168,32 @@ public class Player : MonoBehaviour
     {
         if(currentSize == PlayerSize.large)
         {
+            uIHandler.DisplayMessage("Not Enough Space");
+            return false;
+        }
+        
+        if(currentSize == PlayerSize.medium && cantGrowToLarge)
+        {
+            uIHandler.DisplayMessage("Not Enough Space");
             return false;
         }
 
-        float spaceNeeded = 0f;
-        if(currentSize == PlayerSize.small)
-        {
-            spaceNeeded = 0.4f;
-        }
-        else if(currentSize == PlayerSize.medium)
-        {
-            spaceNeeded = 0.7f;
-        }
-
-        RaycastHit2D upHit = Physics2D.Raycast(transform.position, Vector2.up, spaceNeeded, wallsLayer);
-        RaycastHit2D downHit = Physics2D.Raycast(transform.position, Vector2.down, spaceNeeded, wallsLayer);
-        if(upHit && downHit)
+        if(currentSize == PlayerSize.small && cantGrowToMedium)
         {
             return false;
         }
-
-        RaycastHit2D rightHit = Physics2D.Raycast(transform.position, Vector2.right, spaceNeeded, wallsLayer);
-        RaycastHit2D leftHit = Physics2D.Raycast(transform.position, Vector2.left, spaceNeeded, wallsLayer);
-        if (rightHit && leftHit)
-        {
-            return false;
-        }
-
 
         return true;
+    }
+
+    public void SetCantGrowLarge(bool cantGrowToLarge)
+    {
+        this.cantGrowToLarge = cantGrowToLarge;
+    }
+
+    public void SetCantGrowMedium(bool cantGrowToMedium)
+    {
+        this.cantGrowToMedium = cantGrowToMedium;
     }
 
     public void GetPowerUp(PowerUp powerUp)
@@ -239,6 +239,7 @@ public class Player : MonoBehaviour
             powerUpManager.SaveData();
             savedPowerup = currentPowerUp;
             savedSize = currentSize;
+            uIHandler.DisplayMessage("Checkpoint");
         }
     }
 

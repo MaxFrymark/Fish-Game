@@ -140,7 +140,6 @@ public class EnemyFish : MonoBehaviour
 
     private void CheckLineOfSightToPlayer()
     {
-
         Vector2 directionToPlayer = player.transform.position - fishRigidBody.transform.position;
         directionToPlayer.Normalize();
         RaycastHit2D raycastHit2D = Physics2D.Raycast(fishRigidBody.transform.position, directionToPlayer, 15f, playerLayer | wallsLayer);
@@ -173,8 +172,6 @@ public class EnemyFish : MonoBehaviour
         }
         else
         {
-            Debug.Log(raycastHit2D.transform.gameObject.layer);
-
             if (currentBehavior == Behavior.chase)
             {
                 SwitchToPatrol();

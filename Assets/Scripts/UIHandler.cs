@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +10,13 @@ public class UIHandler : MonoBehaviour
 
     [SerializeField] Sprite scaleUpSprite;
     [SerializeField] Sprite scaleDownSprite;
+
+    [SerializeField] TextMeshProUGUI messages;
+
+    private void Start()
+    {
+        DisplayMessage("WASD to Move");
+    }
 
     public void UpdatePowerUpDisplay(int powerup)
     {
@@ -26,5 +34,19 @@ public class UIHandler : MonoBehaviour
                 powerUpDisplay.sprite = scaleDownSprite;
                 break;
         }
+    }
+
+    public void DisplayMessage(string message)
+    {
+        messages.gameObject.SetActive (true);
+        messages.text = message;
+        StartCoroutine(DisableMessageDisplay());
+
+    }
+
+    private IEnumerator DisableMessageDisplay()
+    {
+        yield return new WaitForSeconds(3f);
+        messages.gameObject.SetActive (false);
     }
 }

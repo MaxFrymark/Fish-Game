@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     [SerializeField] CircleCollider2D circleCollider;
     [SerializeField] SpriteRenderer spriteRenderer;
     [SerializeField] PowerUpManager powerUpManager;
+    [SerializeField] Checkpoint firstCheckPoint;
     
     enum PlayerSize { small, medium, large }
     PlayerSize currentSize = PlayerSize.medium;
@@ -36,9 +37,13 @@ public class Player : MonoBehaviour
     bool cantGrowToLarge = false;
     bool cantGrowToMedium = false;
 
+    bool isFirstPowerUp = true;
+    bool isFirstCheckPoint = true;
+
     private void Start()
     {
         wallsLayer = LayerMask.GetMask(LayerMask.LayerToName(7));
+        currentCheckPoint = firstCheckPoint;
     }
 
     void Update()
@@ -168,7 +173,6 @@ public class Player : MonoBehaviour
     {
         if(currentSize == PlayerSize.large)
         {
-            uIHandler.DisplayMessage("Not Enough Space");
             return false;
         }
         
@@ -180,6 +184,7 @@ public class Player : MonoBehaviour
 
         if(currentSize == PlayerSize.small && cantGrowToMedium)
         {
+            uIHandler.DisplayMessage("Not Enough Space");
             return false;
         }
 
@@ -212,6 +217,12 @@ public class Player : MonoBehaviour
             powerUp.SwitchPowerUpType();
         }
         currentPowerUp = incomingPowerUp;
+        if (isFirstPowerUp)
+        {
+            uIHandler.DisplayMessage("Press Space to change size");
+            isFirstPowerUp = false;
+        }
+
         UpdateUIPowerUpDisplay();
     }
 
@@ -233,13 +244,21 @@ public class Player : MonoBehaviour
 
     public void UpdateCheckPoint(Checkpoint checkpoint)
     {
-        if(currentCheckPoint == null || checkpoint.CheckPointNumber > currentCheckPoint.CheckPointNumber )
+        if(checkpoint.CheckPointNumber > currentCheckPoint.CheckPointNumber )
         {
+            if (isFirstCheckPoint)
+            {
+                uIHandler.DisplayMessage("Checkpoint\nHold R to reload to last checkpoint");
+                isFirstCheckPoint = false;
+            }
+            else
+            {
+                uIHandler.DisplayMessage("Checkpoint");
+            }
             currentCheckPoint = checkpoint;
             powerUpManager.SaveData();
             savedPowerup = currentPowerUp;
             savedSize = currentSize;
-            uIHandler.DisplayMessage("Checkpoint");
         }
     }
 

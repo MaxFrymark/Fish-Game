@@ -17,6 +17,8 @@ public class PowerUpManager : MonoBehaviour
 
         enemyFish = FindObjectsOfType<EnemyFish>();
         areEnemyFishActive = new bool[enemyFish.Length];
+
+        SaveData();
     }
 
     public void SaveData()

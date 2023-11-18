@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class UIHandler : MonoBehaviour
 {
+    [SerializeField] Player player;
     [SerializeField] Image powerUpDisplay;
 
     [SerializeField] Sprite scaleUpSprite;
@@ -13,9 +14,21 @@ public class UIHandler : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI messages;
 
+    [SerializeField] GameObject reloadDisplay;
+    [SerializeField] Slider reloadSlider;
+    bool reloading = false;
+
     private void Start()
     {
         DisplayMessage("WASD to Move");
+    }
+
+    private void Update()
+    {
+        if (reloading)
+        {
+            HandleReloading();
+        }
     }
 
     public void UpdatePowerUpDisplay(int powerup)
@@ -48,5 +61,31 @@ public class UIHandler : MonoBehaviour
     {
         yield return new WaitForSeconds(3f);
         messages.gameObject.SetActive (false);
+    }
+
+    public void StartReloading()
+    {
+        reloading = true;
+        reloadDisplay.SetActive (true);
+    }
+
+    private void HandleReloading()
+    {
+        reloadSlider.value += 1f * Time.deltaTime;
+        if(reloadSlider.value == 1f)
+        {
+            player.Die();
+            EndReloading();
+        }
+    }
+
+    public void EndReloading()
+    {
+        if (reloading)
+        {
+            reloadSlider.value = 0f;
+            reloadDisplay.SetActive(false);
+            reloading = false;
+        }
     }
 }

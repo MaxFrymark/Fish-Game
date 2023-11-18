@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class InputHandler : MonoBehaviour
 {
     [SerializeField] Player player;
+    [SerializeField] UIHandler uiHandler;
     
     PlayerControls playerControls;
 
@@ -15,6 +16,8 @@ public class InputHandler : MonoBehaviour
         playerControls.Player.Move.performed += MovePlayer;
         playerControls.Player.Move.canceled += MovePlayer;
         playerControls.Player.Action.performed += PlayerAction;
+        playerControls.Player.Reload.performed += StartReloading;
+        playerControls.Player.Reload.canceled += CancelReloading;
         playerControls.Enable();
     }
 
@@ -32,5 +35,15 @@ public class InputHandler : MonoBehaviour
     private void OnDisable()
     {
         playerControls.Disable();
+    }
+
+    private void StartReloading(InputAction.CallbackContext context)
+    {
+        uiHandler.StartReloading();
+    }
+
+    private void CancelReloading(InputAction.CallbackContext context)
+    {
+        uiHandler.EndReloading();
     }
 }

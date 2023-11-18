@@ -33,7 +33,7 @@ Transform:
   - {fileID: 1343589894217689925}
   - {fileID: 1343589894543247401}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1343589892778167199
 MonoBehaviour:
@@ -298,8 +298,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0000000030553124, y: 0.025629822}
-  m_Size: {x: 1.0000002, y: 0.49473822}
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 1.0000002, y: 0.7}
   m_Direction: 1
 --- !u!1 &4017482910396870371
 GameObject:

@@ -11,6 +11,9 @@ public class Player : MonoBehaviour
     [SerializeField] SpriteRenderer spriteRenderer;
     [SerializeField] PowerUpManager powerUpManager;
     [SerializeField] Checkpoint firstCheckPoint;
+
+    [SerializeField] AudioClip scaleUpSound;
+    [SerializeField] AudioClip scaleDownSound;
     
     enum PlayerSize { small, medium, large }
     PlayerSize currentSize = PlayerSize.medium;
@@ -144,12 +147,16 @@ public class Player : MonoBehaviour
                 {
                     currentSize = PlayerSize.medium;
                     currentPowerUp = PowerUpType.none;
+                    AudioSource.PlayClipAtPoint(scaleUpSound, transform.position);
                 }
                 else if (currentSize == PlayerSize.medium)
                 {
                     currentSize = PlayerSize.large;
                     currentPowerUp = PowerUpType.none;
+                    AudioSource.PlayClipAtPoint(scaleUpSound, transform.position);
                 }
+
+                
             }
         }
         else if(currentPowerUp == PowerUpType.scaleDown)
@@ -158,12 +165,15 @@ public class Player : MonoBehaviour
             {
                 currentSize = PlayerSize.small;
                 currentPowerUp = PowerUpType.none;
+                AudioSource.PlayClipAtPoint(scaleDownSound, transform.position);
             }
             else if(currentSize == PlayerSize.large)
             {
                 currentSize = PlayerSize.medium;
                 currentPowerUp = PowerUpType.none;
+                AudioSource.PlayClipAtPoint(scaleDownSound, transform.position);
             }
+            
         }
 
         UpdateUIPowerUpDisplay();

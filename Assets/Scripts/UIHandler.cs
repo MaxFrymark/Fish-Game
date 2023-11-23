@@ -6,8 +6,12 @@ using UnityEngine.UI;
 
 public class UIHandler : MonoBehaviour
 {
+    [SerializeField] GameObject openingScreen;
+    [SerializeField] GameObject closingScreen;
+    
     [SerializeField] Player player;
     [SerializeField] Image powerUpDisplay;
+    [SerializeField] GameObject powerUpParent;
 
     [SerializeField] Sprite scaleUpSprite;
     [SerializeField] Sprite scaleDownSprite;
@@ -18,10 +22,6 @@ public class UIHandler : MonoBehaviour
     [SerializeField] Slider reloadSlider;
     bool reloading = false;
 
-    private void Start()
-    {
-        DisplayMessage("WASD to Move");
-    }
 
     private void Update()
     {
@@ -87,5 +87,18 @@ public class UIHandler : MonoBehaviour
             reloadDisplay.SetActive(false);
             reloading = false;
         }
+    }
+
+    public void StartGame()
+    {
+        openingScreen.SetActive (false );
+        player.gameObject.SetActive (true );
+        powerUpParent.SetActive(true);
+        DisplayMessage("WASD to Move");
+    }
+
+    public void EndGame()
+    {
+        closingScreen.SetActive(true);
     }
 }

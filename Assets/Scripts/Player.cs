@@ -43,6 +43,8 @@ public class Player : MonoBehaviour
     bool isFirstPowerUp = true;
     bool isFirstCheckPoint = true;
 
+    bool isStopped = false;
+
     private void Start()
     {
         wallsLayer = LayerMask.GetMask(LayerMask.LayerToName(7));
@@ -51,15 +53,23 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (returningToCheckPoint)
+        if (!isStopped)
         {
-            ReturnToCheckPoint();
-            return;
+            if (returningToCheckPoint)
+            {
+                ReturnToCheckPoint();
+                return;
+            }
+
+            MovePlayer();
+            SetPlayerFacing();
+            CheckScale();
         }
-        
-        MovePlayer();
-        SetPlayerFacing();
-        CheckScale();
+    }
+
+    public void StopPlayer()
+    {
+        isStopped = true;
     }
 
     private void MovePlayer()
@@ -147,13 +157,13 @@ public class Player : MonoBehaviour
                 {
                     currentSize = PlayerSize.medium;
                     currentPowerUp = PowerUpType.none;
-                    AudioSource.PlayClipAtPoint(scaleUpSound, transform.position);
+                    AudioSource.PlayClipAtPoint(scaleUpSound, transform.position, 1.5f);
                 }
                 else if (currentSize == PlayerSize.medium)
                 {
                     currentSize = PlayerSize.large;
                     currentPowerUp = PowerUpType.none;
-                    AudioSource.PlayClipAtPoint(scaleUpSound, transform.position);
+                    AudioSource.PlayClipAtPoint(scaleUpSound, transform.position, 1.5f);
                 }
 
                 

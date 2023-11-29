@@ -15,7 +15,6 @@ public class EndGameManager : MonoBehaviour
     public void StartEndGame()
     {
         inputHandler.SetClosingSequence();
-        cameraMover.StopFollowing();
         MovePlayerTowardTarget();
     }
 
@@ -29,7 +28,7 @@ public class EndGameManager : MonoBehaviour
 
     private void MoveGirlFishToPlayer()
     {
-        Debug.Log("meow");
+        cameraMover.StopFollowing();
         player.velocity = Vector2.zero;
         girlFish.velocity = Vector2.left * 4f;
     }
@@ -49,7 +48,6 @@ public class EndGameManager : MonoBehaviour
 
     public void PlayerAtTarget()
     {
-        Debug.Log("hi");
         MoveGirlFishToPlayer();
     }
 }

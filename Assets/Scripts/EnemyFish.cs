@@ -16,7 +16,7 @@ public class EnemyFish : MonoBehaviour
     float currentSpeed;
     float patrolSpeed = 3f;
     float chaseSpeed = 6f;
-    float retreatSpeed = 8f;
+    float retreatSpeed = 9f;
 
     LayerMask playerLayer;
     LayerMask wallsLayer;
@@ -73,7 +73,7 @@ public class EnemyFish : MonoBehaviour
     private void Retreat()
     {
         MoveAway();
-        if(Vector2.Distance(fishRigidBody.transform.position, player.transform.position) > 15f)
+        if(Vector2.Distance(fishRigidBody.transform.position, player.transform.position) > 13f)
         {
             gameObject.SetActive(false);
         }
